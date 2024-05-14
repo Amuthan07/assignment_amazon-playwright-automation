@@ -29,4 +29,9 @@ This flow has validated the login process(already signed up), signin(if account 
     ![alt text](image.png)
     ![alt text](image-1.png)
 
+## Manual UI test cases
+
+    The following link has the test cases for the UI testing that is mentioned in the assignment
+    Google sheet Link: [RTCamp-UI-testcases](https://docs.google.com/spreadsheets/d/1knNLaBH8TUL0Fb4VRHZQYAJwsSR969TT0tNSro-AwIo/edit?usp=sharing)
+
 
