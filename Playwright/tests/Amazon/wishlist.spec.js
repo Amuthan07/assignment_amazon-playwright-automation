@@ -10,22 +10,17 @@ test('add to wishlist/without sign-in' , async ({page}) => {
     await page.waitForLoadState('domcontentloaded');
     const elements = await page.$$('a.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal');
     for (const element of elements) {
-       //console.log(element)
         const text = await element.innerText();
         //const regex = /(oneplus |5g|grey|256gb|8gb)/i; // Case insensitive regex
         const regex = /(?=.*oneplus)(?=.*5g)(?=.*gray)(?=.*256gb)(?=.*8gb)/i
-        
-    
         if (regex.test(text)) {
-            console.log(text);
-            console.log("it matches")
             let href = await page.evaluate(el => el.getAttribute('href'), element);
-       // console.log("Match found, clicking the href:", href);
         href = urlToTest+href
         await page.goto(href);
         await page.waitForLoadState('domcontentloaded');
         await page.getByRole('link', { name: 'Add to Wish List' }).click();
         await page.waitForLoadState('domcontentloaded');
+
         //it should take us to sign-in page
         expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible();
         await page.waitForTimeout(5000);
@@ -43,17 +38,11 @@ test('add to wishlist/through signed-in' , async({page}) => {
     await page.waitForLoadState('domcontentloaded');
     const elements = await page.$$('a.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal');
     for (const element of elements) {
-       //console.log(element)
         const text = await element.innerText();
-        //const regex = /(oneplus |5g|grey|256gb|8gb)/i; // Case insensitive regex
         const regex = /(?=.*oneplus)(?=.*5g)(?=.*gray)(?=.*256gb)(?=.*8gb)/i
-        
-    
         if (regex.test(text)) {
-            console.log(text);
-            console.log("it matches")
+
             let href = await page.evaluate(el => el.getAttribute('href'), element);
-       // console.log("Match found, clicking the href:", href);
         href = urlToTest+href
         await page.goto(href);
         await page.waitForLoadState('domcontentloaded');
@@ -61,32 +50,32 @@ test('add to wishlist/through signed-in' , async({page}) => {
 
         await page.waitForLoadState('domcontentloaded');
         //it should take us to sign-in page
-       // expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible();
+
         await page.waitForTimeout(5000);
 
         await page.getByLabel('Email or mobile phone number').fill('9080394715');
         await page.getByLabel('Continue').click();
         await page.getByLabel('Password').fill('audiR8etron$');
-        //await page.getByText('Sign in Keep me signed in.').click();
+
         await page.getByLabel('Sign in').click();
         await page.waitForLoadState('domcontentloaded');
         const currentUrl = page.url();
-        //expect(currentUrl).toBe(href);
+
 
         await page.waitForLoadState('domcontentloaded');
         await page.getByRole('link', { name: 'Add to Wish List' }).click();
 
         await page.waitForLoadState('domcontentloaded');
-       // checking if the item is added
+
         expect(page.getByText('One item added to')).toBeVisible()
 
         await page.getByRole('link', { name: 'View Your List' }).click();
         const pageText = await page.textContent('body');
         // @ts-ignore
         const containsText = pageText.includes(text);
+
         //checking if the added item is present in the list
         expect(containsText).toBeTruthy();
-
 
         }
 
@@ -102,17 +91,10 @@ test('remove from the list', async ({page}) => {
     await page.waitForLoadState('domcontentloaded');
     const elements = await page.$$('a.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal');
     for (const element of elements) {
-       //console.log(element)
         const text = await element.innerText();
-        //const regex = /(oneplus |5g|grey|256gb|8gb)/i; // Case insensitive regex
         const regex = /(?=.*oneplus)(?=.*5g)(?=.*gray)(?=.*256gb)(?=.*8gb)/i
-        
-    
         if (regex.test(text)) {
-            console.log(text);
-            console.log("it matches")
             let href = await page.evaluate(el => el.getAttribute('href'), element);
-       // console.log("Match found, clicking the href:", href);
         href = urlToTest+href
         await page.goto(href);
         await page.waitForLoadState('domcontentloaded');
@@ -120,7 +102,6 @@ test('remove from the list', async ({page}) => {
 
         await page.waitForLoadState('domcontentloaded');
         //it should take us to sign-in page
-       // expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible();
         await page.waitForTimeout(5000);
 
         await page.getByLabel('Email or mobile phone number').fill('9080394715');
@@ -129,22 +110,18 @@ test('remove from the list', async ({page}) => {
         //await page.getByText('Sign in Keep me signed in.').click();
         await page.getByLabel('Sign in').click();
         await page.waitForLoadState('domcontentloaded');
-        const currentUrl = page.url();
-        //expect(currentUrl).toBe(href);
-
+   
         await page.waitForLoadState('domcontentloaded');
         await page.getByRole('link', { name: 'Add to Wish List' }).click();
 
         await page.waitForLoadState('domcontentloaded');
        // checking if the item is added
-        //expect(page.getByText('One item added to')).toBeVisible()
 
         await page.getByRole('link', { name: 'View Your List' }).click();
         const pageText = await page.textContent('body');
         // @ts-ignore
         const containsText = pageText.includes(text);
         //checking if the added item is present in the list
-        //expect(containsText).toBeTruthy();
 
         //remove an item form the list
         await page.click('input[name="submit.deleteItem"]');
@@ -165,17 +142,13 @@ test('add to cart from wishlist', async({page}) => {
     await page.waitForLoadState('domcontentloaded');
     const elements = await page.$$('a.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal');
     for (const element of elements) {
-       //console.log(element)
         const text = await element.innerText();
-        //const regex = /(oneplus |5g|grey|256gb|8gb)/i; // Case insensitive regex
         const regex = /(?=.*oneplus)(?=.*5g)(?=.*gray)(?=.*256gb)(?=.*8gb)/i
         
     
         if (regex.test(text)) {
-            console.log(text);
-            console.log("it matches")
+
             let href = await page.evaluate(el => el.getAttribute('href'), element);
-       // console.log("Match found, clicking the href:", href);
         href = urlToTest+href
         await page.goto(href);
         await page.waitForLoadState('domcontentloaded');
@@ -183,17 +156,16 @@ test('add to cart from wishlist', async({page}) => {
 
         await page.waitForLoadState('domcontentloaded');
         //it should take us to sign-in page
-       // expect(page.getByRole('heading', { name: 'Sign in' })).toBeVisible();
+
         await page.waitForTimeout(5000);
 
         await page.getByLabel('Email or mobile phone number').fill('9080394715');
         await page.getByLabel('Continue').click();
         await page.getByLabel('Password').fill('audiR8etron$');
-        //await page.getByText('Sign in Keep me signed in.').click();
+
         await page.getByLabel('Sign in').click();
         await page.waitForLoadState('domcontentloaded');
-        //const currentUrl = page.url();
-        //expect(currentUrl).toBe(href);
+
 
         await page.waitForLoadState('domcontentloaded');
         await page.waitForTimeout(5000);
@@ -201,7 +173,7 @@ test('add to cart from wishlist', async({page}) => {
 
         await page.waitForLoadState('domcontentloaded');
        // checking if the item is added
-        //expect(page.getByText('One item added to')).toBeVisible()
+
 
         await page.getByRole('link', { name: 'View Your List' }).click();
 
@@ -212,7 +184,7 @@ test('add to cart from wishlist', async({page}) => {
 
         expect(page.getByRole('heading', { name: 'Checkout' })).toBeVisible();
 
-        //await page.waitForTimeout(10000);
+
 
         break;
         
@@ -235,17 +207,15 @@ test('view wishlist/already signed in', async({page}) => {
     await page.waitForLoadState('domcontentloaded');
     const elements = await page.$$('a.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal');
     for (const element of elements) {
-       //console.log(element)
         const text = await element.innerText();
-        //const regex = /(oneplus |5g|grey|256gb|8gb)/i; // Case insensitive regex
+
         const regex = /(?=.*oneplus)(?=.*5g)(?=.*gray)(?=.*256gb)(?=.*8gb)/i
         
     
         if (regex.test(text)) {
-            console.log(text);
-            console.log("it matches")
+
             let href = await page.evaluate(el => el.getAttribute('href'), element);
-       // console.log("Match found, clicking the href:", href);
+
         href = urlToTest+href
         await page.goto(href);
         await page.waitForLoadState('domcontentloaded');
@@ -254,7 +224,7 @@ test('view wishlist/already signed in', async({page}) => {
 
         await page.waitForLoadState('domcontentloaded');
        // checking if the item is added
-        //expect(page.getByText('One item added to')).toBeVisible()
+
 
         await page.getByRole('link', { name: 'View Your List' }).click();
         const pageText = await page.textContent('body');
@@ -278,7 +248,7 @@ test('check if an item is already added', async({page}) => {
     await page.getByLabel('Email or mobile phone number').fill('9080394715');
     await page.getByLabel('Continue').click();
     await page.getByLabel('Password').fill('audiR8etron$');
-    //await page.getByText('Sign in Keep me signed in.').click();
+
     await page.getByLabel('Sign in').click();
     await page.waitForLoadState('domcontentloaded');
     //search an item
@@ -287,17 +257,15 @@ test('check if an item is already added', async({page}) => {
     await page.waitForLoadState('domcontentloaded');
     const elements = await page.$$('a.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal');
     for (const element of elements) {
-       //console.log(element)
+
         const text = await element.innerText();
-        //const regex = /(oneplus |5g|grey|256gb|8gb)/i; // Case insensitive regex
+
         const regex = /(?=.*oneplus)(?=.*5g)(?=.*gray)(?=.*256gb)(?=.*8gb)/i
         
     
         if (regex.test(text)) {
-            console.log(text);
-            console.log("it matches")
             let href = await page.evaluate(el => el.getAttribute('href'), element);
-       // console.log("Match found, clicking the href:", href);
+
         href = urlToTest+href
         await page.goto(href);
         await page.waitForLoadState('domcontentloaded');

@@ -1,21 +1,17 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 const urlToTest = 'https://www.amazon.in/';
-// test('If site is loaded', async ({page}) => {
-//     await page.goto('https://www.amazon.in/');
-//     const response = await page.waitForResponse(response => response.url() === 'https://www.amazon.in/');
-//     const statusCode = response.status();
-//     expect(statusCode).toBeGreaterThanOrEqual(200);
-//     expect(statusCode).toBeLessThan(400);
-// })
 
-test('If sign-in button is clicked', async ({page}) => {
+
+test('If sign-in button is there', async ({page}) => {
+    //check if the sign-in button is present
     await page.goto(urlToTest);
     await page.getByRole('link', { name: 'Sign in', exact: true }).click();
     await expect(page.url()).toContain('signin');
 });
 
 test('email is invalid', async({page}) => {
+    //test with invalid email
     await page.goto(urlToTest);
     await page.getByRole('link', { name: 'Sign in', exact: true }).click();
     await page.getByLabel('Email or mobile phone number').click();
@@ -28,6 +24,7 @@ test('email is invalid', async({page}) => {
     expect(errorMessageExists).toBeTruthy();
 })
 test('email is blank', async({page}) => {
+    //when email field is blank
     await page.goto(urlToTest);
     await page.getByRole('link', { name: 'Sign in', exact: true }).click();
     await page.getByLabel('Email or mobile phone number').click();
@@ -40,6 +37,7 @@ test('email is blank', async({page}) => {
     expect(errorMessageExists).toBeTruthy();
 })
 test('email value exceeds 40 chars', async({page}) => {
+    //when the email value exceeds 40 chars
     await page.goto(urlToTest);
     await page.getByRole('link', { name: 'Sign in', exact: true }).click();
     await page.getByLabel('Email or mobile phone number').click();
@@ -53,6 +51,7 @@ test('email value exceeds 40 chars', async({page}) => {
 })
 
 test('email is valid', async({page}) => {
+    //when the email is valid
     await page.goto(urlToTest);
     await page.getByRole('link', { name: 'Sign in', exact: true }).click();
     await page.getByLabel('Email or mobile phone number').click();
@@ -64,6 +63,7 @@ test('email is valid', async({page}) => {
 })
 
 test('password is invalid', async({page}) => {
+    //when the password is invalid
     await page.goto(urlToTest);
     await page.getByRole('link', { name: 'Sign in', exact: true }).click();
     await page.getByLabel('Email or mobile phone number').click();
@@ -81,6 +81,7 @@ test('password is invalid', async({page}) => {
 })
 
 test('Forgot password', async({page}) => {
+    //check the forgot password feature
     await page.goto(urlToTest);
     await page.getByRole('link', { name: 'Sign in', exact: true }).click();
     await page.getByLabel('Email or mobile phone number').click();
@@ -141,6 +142,7 @@ test('check privacy notice is available', async({page}) => {
 })
 
 test('need help functionality', async({page}) => {
+    //check the need help functionality feature
     await page.goto(urlToTest);
     await page.getByRole('link', { name: 'Sign in', exact: true }).click();
     await page.getByLabel('Email or mobile phone number').click();
@@ -164,13 +166,12 @@ test('need help functionality', async({page}) => {
       } catch (error) {
         console.error('The "Other issues with Sign-In" link is not visible.');
       }
-    // await expect(page.getByRole('link', { name: 'Forgot Password' })).toBeVisible();
-    // await expect(page.getByRole('link', { name: 'Other issues with Sign-In' })).toBeVisible();
-
+  
 
 })
 
 test('shop on business is working', async({page}) => {
+    //check the shop on busines feature is working
     await page.goto(urlToTest);
     await page.getByRole('link', { name: 'Sign in', exact: true }).click();
     await page.getByLabel('Email or mobile phone number').click();
