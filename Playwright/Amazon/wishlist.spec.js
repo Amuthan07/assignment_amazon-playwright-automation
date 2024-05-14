@@ -53,9 +53,10 @@ test('add to wishlist/through signed-in' , async({page}) => {
 
         await page.waitForTimeout(5000);
 
-        await page.getByLabel('Email or mobile phone number').fill('9080394715');
+        //fill your valid amazon creds
+        await page.getByLabel('Email or mobile phone number').fill('**********');
         await page.getByLabel('Continue').click();
-        await page.getByLabel('Password').fill('audiR8etron$');
+        await page.getByLabel('Password').fill('**********');
 
         await page.getByLabel('Sign in').click();
         await page.waitForLoadState('domcontentloaded');
@@ -104,9 +105,10 @@ test('remove from the list', async ({page}) => {
         //it should take us to sign-in page
         await page.waitForTimeout(5000);
 
-        await page.getByLabel('Email or mobile phone number').fill('9080394715');
+        //fill your valid amazon creds here
+        await page.getByLabel('Email or mobile phone number').fill('**********');
         await page.getByLabel('Continue').click();
-        await page.getByLabel('Password').fill('audiR8etron$');
+        await page.getByLabel('Password').fill('**********$');
         //await page.getByText('Sign in Keep me signed in.').click();
         await page.getByLabel('Sign in').click();
         await page.waitForLoadState('domcontentloaded');
@@ -159,9 +161,10 @@ test('add to cart from wishlist', async({page}) => {
 
         await page.waitForTimeout(5000);
 
-        await page.getByLabel('Email or mobile phone number').fill('9080394715');
+        //fill your valid amazon creds here
+        await page.getByLabel('Email or mobile phone number').fill('**********');
         await page.getByLabel('Continue').click();
-        await page.getByLabel('Password').fill('audiR8etron$');
+        await page.getByLabel('Password').fill('**********');
 
         await page.getByLabel('Sign in').click();
         await page.waitForLoadState('domcontentloaded');
@@ -195,9 +198,11 @@ test('view wishlist/already signed in', async({page}) => {
     await page.goto(urlToTest);
     await page.getByRole('link', { name: 'Sign in', exact: true }).click();
     await page.waitForLoadState('domcontentloaded');
-    await page.getByLabel('Email or mobile phone number').fill('9080394715');
+
+    //fill your valid amazon creds here
+    await page.getByLabel('Email or mobile phone number').fill('**********');
     await page.getByLabel('Continue').click();
-    await page.getByLabel('Password').fill('audiR8etron$');
+    await page.getByLabel('Password').fill('**********');
     //await page.getByText('Sign in Keep me signed in.').click();
     await page.getByLabel('Sign in').click();
     await page.waitForLoadState('domcontentloaded');
@@ -245,9 +250,11 @@ test('check if an item is already added', async({page}) => {
     await page.goto(urlToTest);
     await page.getByRole('link', { name: 'Sign in', exact: true }).click();
     await page.waitForLoadState('domcontentloaded');
-    await page.getByLabel('Email or mobile phone number').fill('9080394715');
+
+    //fill your valid amazon creds here
+    await page.getByLabel('Email or mobile phone number').fill('**********');
     await page.getByLabel('Continue').click();
-    await page.getByLabel('Password').fill('audiR8etron$');
+    await page.getByLabel('Password').fill('**********');
 
     await page.getByLabel('Sign in').click();
     await page.waitForLoadState('domcontentloaded');
