@@ -94,8 +94,6 @@ test('remove from the list', async ({page}) => {
         const text = await element.innerText();
         const regex = /(?=.*oneplus)(?=.*5g)(?=.*gray)(?=.*256gb)(?=.*8gb)/i
         if (regex.test(text)) {
-            console.log(text);
-            console.log("it matches")
             let href = await page.evaluate(el => el.getAttribute('href'), element);
         href = urlToTest+href
         await page.goto(href);
@@ -266,9 +264,8 @@ test('check if an item is already added', async({page}) => {
         
     
         if (regex.test(text)) {
-            console.log(text);
-            console.log("it matches")
             let href = await page.evaluate(el => el.getAttribute('href'), element);
+
         href = urlToTest+href
         await page.goto(href);
         await page.waitForLoadState('domcontentloaded');
