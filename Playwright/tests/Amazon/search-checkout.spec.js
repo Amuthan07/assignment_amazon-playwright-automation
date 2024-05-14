@@ -19,49 +19,51 @@ function generateRandomString(length,flag) {
   return randomString;
 }
 
-test('show the result with the given product name', async({page}) => {
-    //let's take a product named OnePlus nord ce 5g
-    await page.goto(urlToTest);
-    await page.getByPlaceholder('Search Amazon.in').fill('Oneplus nord ce 5g');
-    const suggestions = await page.waitForSelector('.autocomplete-results-container');
-    if(suggestions)
-         console.log("suggestion box came up")
-    const hasAriaLabel = await suggestions.$('[aria-label]');
-    if(hasAriaLabel)
-        console.log('The container has elements with aria-label attribute.');
+//THIS FLOOWING TC IS NOT HANDLED, SO I COMMENTED, PLEASE FEEL FREE TO EDIT 
+// test('show the result with the given product name', async({page}) => {
+//     //let's take a product named OnePlus nord ce 5g
+//     await page.goto(urlToTest);
+//     await page.getByPlaceholder('Search Amazon.in').fill('Oneplus nord ce 5g');
+//     const suggestions = await page.waitForSelector('.autocomplete-results-container');
+//     if(suggestions)
+//          console.log("suggestion box came up")
+//     const hasAriaLabel = await suggestions.$('[aria-label]');
+//     if(hasAriaLabel)
+//         console.log('The container has elements with aria-label attribute.');
 
-    // for (const result of suggestions) {
-    //     const title = await result.textContent();
-    //     expect(title).toContain('oneplus'); // Check that the title contains a relevant keyword
-    //   }
+//     // for (const result of suggestions) {
+//     //     const title = await result.textContent();
+//     //     expect(title).toContain('oneplus'); // Check that the title contains a relevant keyword
+//     //   }
 
-    // if(await page.waitForSelector('.autocomplete-results-container'))
-    //     console.log("suggestion box came up")
-    // const container = await page.waitForSelector('.autocomplete-results-container');
-    // let foundOnePlus = false;
-    // if (container) {
-    //     const hasAriaLabel = await container.$('[aria-label]');
-    //     if (hasAriaLabel) {
-    //         console.log('The container has elements with aria-label attribute.');
-    //         const ariaLabels = await Promise.all(hasAriaLabel.map(el => el.getAttribute('aria-label')));
-    //         for (const element of ariaLabels){
-    //         const ariaLabel = await element.getAttribute('aria-label');
-    //         console.log(ariaLabel)
-    //         if (ariaLabel && ariaLabel.startsWith('oneplus')) {
-    //             foundOnePlus = true;
-    //             break;
-    //         }
-    //         }
-    //     } else {
-    //         console.log('The container does not have any elements with aria-label attribute.');
-    //     }
-    // } else {
-    //     console.log('The container with class .autocomplete-results-container was not found.');
-    // }
-    // await expect(foundOnePlus).toBeTruthy();
+//     // if(await page.waitForSelector('.autocomplete-results-container'))
+//     //     console.log("suggestion box came up")
+//     // const container = await page.waitForSelector('.autocomplete-results-container');
+//     // let foundOnePlus = false;
+//     // if (container) {
+//     //     const hasAriaLabel = await container.$('[aria-label]');
+//     //     if (hasAriaLabel) {
+//     //         console.log('The container has elements with aria-label attribute.');
+//     //         const ariaLabels = await Promise.all(hasAriaLabel.map(el => el.getAttribute('aria-label')));
+//     //         for (const element of ariaLabels){
+//     //         const ariaLabel = await element.getAttribute('aria-label');
+//     //         console.log(ariaLabel)
+//     //         if (ariaLabel && ariaLabel.startsWith('oneplus')) {
+//     //             foundOnePlus = true;
+//     //             break;
+//     //         }
+//     //         }
+//     //     } else {
+//     //         console.log('The container does not have any elements with aria-label attribute.');
+//     //     }
+//     // } else {
+//     //     console.log('The container with class .autocomplete-results-container was not found.');
+//     // }
+//     // await expect(foundOnePlus).toBeTruthy();
     
-})
+// })
 
+//test the search results
 test('search results', async({page}) => {
     await page.goto(urlToTest);
     await page.getByPlaceholder('Search Amazon.in').fill('Oneplus nord ce 5g');
@@ -79,6 +81,7 @@ test('search results', async({page}) => {
     
 })
 
+//test the search results again
 test('search results, case sensitive', async({page}) => {
     await page.goto(urlToTest);
     await page.getByPlaceholder('Search Amazon.in').fill('ONEPLUS NORD CE 5g');
@@ -96,7 +99,7 @@ test('search results, case sensitive', async({page}) => {
     
 })
 
-
+//test if no text is entered
 test('search without entering', async({page}) => {
     await page.goto(urlToTest);
     await page.getByRole('button', { name: 'Go', exact: true }).click();
@@ -105,6 +108,7 @@ test('search without entering', async({page}) => {
     await expect(currentUrl).toBe(urlToTest);
 })
 
+//test if blank spaces are entered
 test('search with entering blank spaces', async({page}) => {
     await page.goto(urlToTest);
     await page.getByPlaceholder('Search Amazon.in').fill('   ');
@@ -114,6 +118,7 @@ test('search with entering blank spaces', async({page}) => {
     await expect(currentUrl).toBe(urlToTest);
 })
 
+//search with random string
 test('search with random string', async({page}) => {
     await page.goto(urlToTest);
     const randomString = generateRandomString(10,0);
@@ -132,6 +137,8 @@ test('search with random string', async({page}) => {
       }
 
 });
+
+//test the cart feature
 test('check the cart',async({page}) => {
     //here we are ordering a 'one plus mobile' from the search result
     await page.goto(urlToTest);
@@ -140,36 +147,25 @@ test('check the cart',async({page}) => {
     await page.waitForLoadState('domcontentloaded');
     const elements = await page.$$('a.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal');
     for (const element of elements) {
-       //console.log(element)
         const text = await element.innerText();
-        //const regex = /(oneplus |5g|grey|256gb|8gb)/i; // Case insensitive regex
         const regex = /(?=.*oneplus)(?=.*5g)(?=.*gray)(?=.*256gb)(?=.*8gb)/i
         
     
         if (regex.test(text)) {
-            console.log(text);
-            console.log("it matches")
             let href = await page.evaluate(el => el.getAttribute('href'), element);
-       // console.log("Match found, clicking the href:", href);
         href = urlToTest+href
         await page.goto(href);
         await page.waitForLoadState('domcontentloaded');
-       // expect(page.getByRole('heading', { name: `${test}` }).locator('#productTitle'))
         await page.locator('#desktop_qualifiedBuyBox').getByLabel('Add to Cart').click();
         await page.waitForLoadState('domcontentloaded');
         await page.getByLabel('Cart', { exact: true }).click();
         await page.waitForLoadState('domcontentloaded');
-        //await page.getByLabel('items in cart').click();
         await page.waitForLoadState('domcontentloaded');
         const pageText = await page.textContent('body');
 
-const containsText = pageText.includes(text);
+        const containsText = pageText.includes(text);
+        expect(containsText).toBeTruthy();
 
-if (containsText) {
-    console.log(`The page contains the text: ${text}`);
-} else {
-    console.log(`The page does not contain the text: ${text}`);
-}
         break; 
         }
         
@@ -247,17 +243,10 @@ test('order an item/without signin', async({page}) => {
 
     const elements = await page.$$('a.a-link-normal.s-underline-text.s-underline-link-text.s-link-style.a-text-normal');
     for (const element of elements) {
-       //console.log(element)
         const text = await element.innerText();
-        //const regex = /(oneplus |5g|grey|256gb|8gb)/i; // Case insensitive regex
         const regex = /(?=.*oneplus)(?=.*5g)(?=.*gray)(?=.*256gb)(?=.*8gb)/i
-        
-    
         if (regex.test(text)) {
-            console.log(text);
-            console.log("it matches")
             let href = await page.evaluate(el => el.getAttribute('href'), element);
-        console.log("Match found, clicking the href:", href);
         href = urlToTest+href
         await page.goto(href);
         await page.waitForLoadState('domcontentloaded');

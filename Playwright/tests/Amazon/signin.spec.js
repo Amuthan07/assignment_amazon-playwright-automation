@@ -2,6 +2,7 @@
 const { test, expect } = require('@playwright/test');
 const urlToTest = 'https://www.amazon.in/';
 
+//this function geneartes a random string
 function generateRandomString(length,flag) {
     const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const specialCharacters = '~!@#$%^&*()_+';
@@ -19,24 +20,24 @@ function generateRandomString(length,flag) {
   return randomString;
 }
 
-function passwordChecker(password) {
+//this is a  random password generator
+function passwordGenerator(password) {
     let regex =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{6,15}$/; 
     return regex.test(password);
 }
 
+//chekc if the sign-in page works
 test('signin in homepage works', async({page}) => {
     await page.goto(urlToTest);
     try{
         await expect(await page.getByRole('link', { name: 'Start here.' })).toBeVisible;
         await page.getByRole('link', { name: 'Start here.' }).click();
-        console.log('signin in homepage redirects to respective page');
         await expect(page.getByRole('heading', { name: 'Create Account' })).toBeVisible;
         await expect(page.getByText('Your name', { exact: true })).toBeVisible;
         await expect(page.getByText('Password', { exact: true })).toBeVisible;
         await expect(page.getByLabel('Verify mobile number')).toBeVisible();
-        console.log('sigin page doesnt have necessary fields');
     } catch(error) {
-        console.log('sigin page doesnt work');
+        console.error('Error occureed:',error);
     }
     
 })
@@ -110,7 +111,6 @@ test('mobile number with >10', async({page}) => {
     await page.getByRole('link', { name: 'Start here.' }).click();
     const randomString = generateRandomString(10,1);
     await page.getByPlaceholder('First and last name').fill(randomString);
-   // console.log(randomString);
     await page.getByPlaceholder('Mobile number').click();
     await page.getByPlaceholder('Mobile number').fill('854361384609787877');
     await page.getByPlaceholder('At least 6 characters').click();
@@ -134,7 +134,6 @@ test('mobile number with <10', async({page}) => {
     await page.getByRole('link', { name: 'Start here.' }).click();
     const randomString = generateRandomString(10,1);
     await page.getByPlaceholder('First and last name').fill(randomString);
-    //console.log(randomString);
     await page.getByPlaceholder('Mobile number').click();
     await page.getByPlaceholder('Mobile number').fill('87877');
     await page.getByPlaceholder('At least 6 characters').click();
@@ -158,7 +157,6 @@ test('password <6', async({page}) => {
     await page.getByRole('link', { name: 'Start here.' }).click();
     const randomString = generateRandomString(10,1);
     await page.getByPlaceholder('First and last name').fill(randomString);
-    //console.log(randomString);
     await page.getByPlaceholder('Mobile number').click();
     await page.getByPlaceholder('Mobile number').fill('87877');
     await page.getByPlaceholder('At least 6 characters').click();
@@ -174,16 +172,11 @@ test('password strength', async({page}) => {
     await page.getByRole('link', { name: 'Start here.' }).click();
     const randomString = generateRandomString(10,1);
     await page.getByPlaceholder('First and last name').fill(randomString);
-    //console.log(randomString);
     await page.getByPlaceholder('Mobile number').click();
     await page.getByPlaceholder('Mobile number').fill('87877');
     await page.getByPlaceholder('At least 6 characters').click();
-    const password = 'kshfuhihgi';
-    if(passwordChecker(password))
-    {
-        console.log("Password matches the standard requirement")
-    }
-    else{console.log("password doesn't match standard requirements")}
+    //type your custom password here
+    const password = 'kshfuhihgi'; 
     await page.getByPlaceholder('At least 6 characters').fill(password);
     await page.getByLabel('Verify mobile number').click();
     await page.waitForLoadState('domcontentloaded');
@@ -204,7 +197,6 @@ test('All fields are valid', async({page}) => {
     await page.getByRole('link', { name: 'Start here.' }).click();
     const randomString = generateRandomString(10,1);
     await page.getByPlaceholder('First and last name').fill(randomString);
-    //console.log(randomString);
     await page.getByPlaceholder('Mobile number').click();
     await page.getByPlaceholder('Mobile number').fill('8787798987');
     await page.getByPlaceholder('At least 6 characters').click();
@@ -220,11 +212,10 @@ test('shop on business is working', async({page}) => {
     try {
         await expect(page.getByRole('link', { name: 'Shop on Amazon Business' })).toBeVisible();
         await page.getByRole('link', { name: 'Shop on Amazon Business' }).click();
-        await expect(page.getByLabel('Email or mobile phone number')).toBeVisible;
-        await expect(page.getByLabel('Password')).toBeVisible;
-        console.log('shp on business is working and taking to the respective link')
-    } catch(erorr) {
-        console.log('the shop on business link is not working')
+        expect(page.getByLabel('Email or mobile phone number')).toBeVisible;
+        expect(page.getByLabel('Password')).toBeVisible;
+    } catch(error) {
+        console.error('Error occureed:',error);
     }
 });
 
